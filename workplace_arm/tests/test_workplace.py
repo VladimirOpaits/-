@@ -23,7 +23,7 @@ class TestWorkplace(TransactionCase):
     def test_workplace_creation(self):
         workplace = self.Workplace.create({
             'name': 'Test Workplace',
-            'code': 'WP001',
+            'code': 'WP_TEST_001',
             'location': 'Test Location',
             'capacity': 2,
             'status': 'available',
@@ -31,7 +31,7 @@ class TestWorkplace(TransactionCase):
         })
         
         self.assertEqual(workplace.name, 'Test Workplace')
-        self.assertEqual(workplace.code, 'WP001')
+        self.assertEqual(workplace.code, 'WP_TEST_001')
         self.assertEqual(workplace.capacity, 2)
         self.assertEqual(workplace.status, 'available')
         self.assertTrue(workplace.active)
@@ -39,14 +39,14 @@ class TestWorkplace(TransactionCase):
     def test_workplace_code_unique(self):
         self.Workplace.create({
             'name': 'Workplace 1',
-            'code': 'WP001',
+            'code': 'WP_TEST_002',
             'capacity': 1,
         })
         
         with self.assertRaises(ValidationError): 
             self.Workplace.create({
                 'name': 'Workplace 2',
-                'code': 'WP001',
+                'code': 'WP_TEST_002',
                 'capacity': 1,
             })
 
@@ -54,21 +54,21 @@ class TestWorkplace(TransactionCase):
         with self.assertRaises(ValidationError):
             self.Workplace.create({
                 'name': 'Test Workplace',
-                'code': 'WP001',
+                'code': 'WP_TEST_003',
                 'capacity': 0, 
             })
         
         with self.assertRaises(ValidationError):
             self.Workplace.create({
                 'name': 'Test Workplace',
-                'code': 'WP002',
+                'code': 'WP_TEST_004',
                 'capacity': -1,
             })
 
     def test_workplace_current_operators_capacity(self):
         workplace = self.Workplace.create({
             'name': 'Test Workplace',
-            'code': 'WP001',
+            'code': 'WP_TEST_006',
             'capacity': 1,
         })
         
@@ -81,7 +81,7 @@ class TestWorkplace(TransactionCase):
     def test_workplace_status_actions(self):
         workplace = self.Workplace.create({
             'name': 'Test Workplace',
-            'code': 'WP001',
+            'code': 'WP_TEST_007',
             'capacity': 1,
             'status': 'available',
         })
@@ -101,7 +101,7 @@ class TestWorkplace(TransactionCase):
     def test_workplace_operator_assignment(self):
         workplace = self.Workplace.create({
             'name': 'Test Workplace',
-            'code': 'WP001',
+            'code': 'WP_TEST_005',
             'capacity': 2,
         })
         
