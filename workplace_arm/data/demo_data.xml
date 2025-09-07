@@ -3,7 +3,7 @@
     <data noupdate="1">
         <record id="workplace_1" model="workplace.workplace">
             <field name="name">Workplace 1</field>
-            <field name="code">WP001</field>
+            <field name="code">WP_DEMO_001</field>
             <field name="location">Line 1</field>
             <field name="capacity">2</field>
             <field name="status">available</field>
@@ -12,7 +12,7 @@
 
         <record id="workplace_2" model="workplace.workplace">
             <field name="name">Workplace 2</field>
-            <field name="code">WP002</field>
+            <field name="code">WP_DEMO_002</field>
             <field name="location">Line 2</field>
             <field name="capacity">1</field>
             <field name="status">available</field>
@@ -21,7 +21,7 @@
 
         <record id="workplace_3" model="workplace.workplace">
             <field name="name">Workplace 3</field>
-            <field name="code">WP003</field>
+            <field name="code">WP_DEMO_003</field>
             <field name="location">Line 3</field>
             <field name="capacity">1</field>
             <field name="status">maintenance</field>
