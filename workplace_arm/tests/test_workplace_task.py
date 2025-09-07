@@ -23,7 +23,7 @@ class TestWorkplaceTask(TransactionCase):
         
         self.workplace = self.Workplace.create({
             'name': 'Test Workplace',
-            'code': 'WP001',
+            'code': 'WP_TEST_TASK_001',
             'capacity': 2,
             'status': 'available',
             'operator_ids': [(4, self.user1.id), (4, self.user2.id)],
