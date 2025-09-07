@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_workplace_task_form" model="ir.ui.view">
+            <field name="name">workplace.task.form</field>
+            <field name="model">workplace.task</field>
+            <field name="arch" type="xml">
+                <form string="Work Task">
+                    <header>
+                        
+                        <button name="action_start_work" string="Start Work" type="object" 
+                                class="oe_highlight" invisible="status != 'ready'"/>
+                        <button name="action_complete" string="Complete" type="object" 
+                                class="btn-success" invisible="status != 'in_progress'"/>
+                        <button name="action_defect" string="Defect" type="object" 
+                                class="btn-danger" invisible="status != 'in_progress'"/>
+                        <button name="action_remove_operator" string="Remove from Task" type="object" 
+                                class="btn-warning" invisible="status != 'in_progress'"/>
+                        <button name="action_cancel" string="Cancel" type="object" 
+                                class="btn-secondary" invisible="status in ['completed', 'defect', 'cancelled']"/>
+                        <field name="status" widget="statusbar" statusbar_visible="ready,in_progress,completed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Task Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="workplace_id" required="1"/>
+                                <field name="allowed_operators" widget="many2many_tags" 
+                                       help="Select users who are allowed to work on this task"/>
+                            </group>
+                            <group>
+                                <field name="status"/>
+                                <field name="defect_reason" invisible="status != 'defect'"/>
+                                <field name="current_operator_ids" widget="many2many_tags" readonly="1"
+                                       string="Currently Working" 
+                                       help="Users currently working on this task (managed automatically)"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <group>
+                                    <field name="customer_order_number"/>
+                                    <field name="order_date"/>
+                                </group>
+                                <field name="notes" placeholder="Add notes here..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_workplace_task_kanban" model="ir.ui.view">
+            <field name="name">workplace.task.kanban</field>
+            <field name="model">workplace.task</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="status" create="false">
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="o_kanban_record_body">
+                                        <div>
+                                            <strong><field name="workplace_id"/></strong>
+                                        </div>
+                                        
+                                        <div>
+                                            <field name="allowed_operators"/>
+                                        </div>
+                                        
+                                        <div t-if="record.current_operator_ids.value">
+                                            <field name="current_operator_ids"/>
+                                        </div>
+                                        
+                                        <div t-if="record.customer_order_number.value">
+                                            №<t t-esc="record.customer_order_number.value"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="o_kanban_record_bottom">
+                                        <button name="action_start_work" string="Start Work" type="object" 
+                                                class="btn-primary" invisible="status != 'ready'"/>
+                                        <button name="action_complete" string="Complete" type="object" 
+                                                class="btn-success" invisible="status != 'in_progress'"/>
+                                        <button name="action_defect" string="Defect" type="object" 
+                                                class="btn-danger" invisible="status != 'in_progress'"/>
+                                        <button name="action_remove_operator" string="Leave" type="object" 
+                                                class="btn-warning" invisible="status != 'in_progress'"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                    <field name="name"/>
+                    <field name="workplace_id"/>
+                    <field name="allowed_operators"/>
+                    <field name="current_operator_ids"/>
+                    <field name="status"/>
+                    <field name="customer_order_number"/>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_workplace_task_list" model="ir.ui.view">
+            <field name="name">workplace.task.list</field>
+            <field name="model">workplace.task</field>
+            <field name="arch" type="xml">
+                <list string="Work Tasks">
+                    <field name="name"/>
+                    <field name="workplace_id"/>
+                    <field name="allowed_operators"/>
+                    <field name="current_operator_ids"/>
+                    <field name="status" decoration-success="status == 'completed'" 
+                           decoration-warning="status == 'in_progress'"
+                           decoration-danger="status == 'defect'"/>
+                    <field name="customer_order_number"/>
+                    
+                    <button name="action_start_work" string="Start" type="object" 
+                            class="btn-primary" invisible="status != 'ready'"/>
+                    <button name="action_complete" string="Complete" type="object" 
+                            class="btn-success" invisible="status != 'in_progress'"/>
+                    <button name="action_defect" string="Defect" type="object" 
+                            class="btn-danger" invisible="status != 'in_progress'"/>
+                    <button name="action_remove_operator" string="Leave" type="object" 
+                            class="btn-warning" invisible="status != 'in_progress'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_workplace_task_search" model="ir.ui.view">
+            <field name="name">workplace.task.search</field>
+            <field name="model">workplace.task</field>
+            <field name="arch" type="xml">
+                <search string="Search Work Tasks">
+                    <field name="name"/>
+                    <field name="workplace_id"/>
+                    <field name="allowed_operators"/>
+                    <separator/>
+                    <filter string="Ready" name="ready" domain="[('status', '=', 'ready')]"/>
+                    <filter string="In Progress" name="in_progress" domain="[('status', '=', 'in_progress')]"/>
+                    <filter string="Completed" name="completed" domain="[('status', '=', 'completed')]"/>
+                    <filter string="Defect" name="defect" domain="[('status', '=', 'defect')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_workplace_task" model="ir.actions.act_window">
+            <field name="name">Work Tasks</field>
+            <field name="res_model">workplace.task</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_workplace_task_kanban')}),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('view_workplace_task_list')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_workplace_task_form')})]"/>
+            <field name="search_view_id" ref="view_workplace_task_search"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first work task!
+                </p>
+                <p>
+                    Manage work tasks and track their progress.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="workplace_1" model="workplace.workplace">
+            <field name="name">Workplace 1</field>
+            <field name="code">WP_DEMO_001</field>
+            <field name="location">Line 1</field>
+            <field name="capacity">2</field>
+            <field name="status">available</field>
+            <field name="operator_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="workplace_2" model="workplace.workplace">
+            <field name="name">Workplace 2</field>
+            <field name="code">WP_DEMO_002</field>
+            <field name="location">Line 2</field>
+            <field name="capacity">1</field>
+            <field name="status">available</field>
+            <field name="operator_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="workplace_3" model="workplace.workplace">
+            <field name="name">Workplace 3</field>
+            <field name="code">WP_DEMO_003</field>
+            <field name="location">Line 3</field>
+            <field name="capacity">1</field>
+            <field name="status">maintenance</field>
+            <field name="operator_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="task_1" model="workplace.task">
+            <field name="name">Task 1</field>
+            <field name="workplace_id" ref="workplace_1"/>
+            <field name="status">ready</field>
+            <field name="customer_order_number">118</field>
+            <field name="allowed_operators" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="task_2" model="workplace.task">
+            <field name="name">Task 2</field>
+            <field name="workplace_id" ref="workplace_2"/>
+            <field name="status">ready</field>
+            <field name="customer_order_number">244</field>
+            <field name="allowed_operators" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="task_3" model="workplace.task">
+            <field name="name">Task 3</field>
+            <field name="workplace_id" ref="workplace_1"/>
+            <field name="status">ready</field>
+            <field name="customer_order_number">251</field>
+            <field name="allowed_operators" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>
